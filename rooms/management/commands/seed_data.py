@@ -23,15 +23,9 @@ class Command(BaseCommand):
 
             if created:
                 self.stdout.write(
-                    self.style.SUCCESS(
-                        f"Created room {room.room_number}"
-                    )
+                    self.style.SUCCESS(f"Created room {room.room_number}")
                 )
             else:
-                self.stdout.write(
-                    f"Room {room.room_number} already exists"
-                )
+                self.stdout.write(f"Room {room.room_number} already exists")
 
-        self.stdout.write(
-            self.style.SUCCESS("Seed data completed.")
-        )
+        self.stdout.write(self.style.SUCCESS("Seed data completed."))

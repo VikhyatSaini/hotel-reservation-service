@@ -1,16 +1,14 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from rooms.models import Room
 from reservations.models import Reservation
+from rooms.models import Room
 from rooms.serializers import AvailabilityQuerySerializer
 
 
 @api_view(["GET"])
 def room_availability(request):
-    serializer = AvailabilityQuerySerializer(
-        data=request.query_params
-    )
+    serializer = AvailabilityQuerySerializer(data=request.query_params)
 
     serializer.is_valid(raise_exception=True)
 
@@ -24,17 +22,12 @@ def room_availability(request):
         check_out__gt=check_in,
     )
 
-    booked_room_ids = overlapping_reservations.values_list(
-        "room_id",
-        flat=True
-    )
+    booked_room_ids = overlapping_reservations.values_list("room_id", flat=True)
 
     available_rooms = Room.objects.filter(
         is_active=True,
         room_type=room_type,
-    ).exclude(
-        id__in=booked_room_ids
-    )
+    ).exclude(id__in=booked_room_ids)
 
     results = [
         {
@@ -46,10 +39,7 @@ def room_availability(request):
 
     return Response(results)
 
+
 @api_view(["GET"])
 def room_list(request):
-    return Response({
-        "message": "Room API is working",
-        "rooms": []    
-    })
-
+    return Response({"message": "Room API is working", "rooms": []})

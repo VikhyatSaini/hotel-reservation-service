@@ -1,12 +1,12 @@
-import pytest
-from rest_framework.test import APIClient
-
-from rooms.models import Room
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
+import pytest
 from django.db import close_old_connections
+from rest_framework.test import APIClient
+
 from reservations.models import Reservation
+from rooms.models import Room
 
 
 @pytest.mark.django_db
@@ -31,6 +31,7 @@ def test_create_reservation_success():
 
     assert response.status_code == 201
     assert "reference" in response.data
+
 
 @pytest.mark.django_db
 def test_reject_overlapping_reservation():

@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from reservations.models import Reservation
 from reservations.serializers import ReservationCreateSerializer
+from rooms.models import Room
 
 
 @api_view(["POST"])
@@ -12,12 +13,18 @@ def create_reservation(request):
     serializer = ReservationCreateSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
-    room = serializer.validated_data["room"]
+    requested_room = serializer.validated_data["room"]
     check_in = serializer.validated_data["check_in"]
     check_out = serializer.validated_data["check_out"]
 
     try:
         with transaction.atomic():
+            # Lock this physical room until the transaction finishes.
+            room = Room.objects.select_for_update().get(
+                pk=requested_room.pk,
+                is_active=True,
+            )
+
             overlapping_reservations = Reservation.objects.filter(
                 room=room,
                 status=Reservation.Status.CONFIRMED,
@@ -31,7 +38,13 @@ def create_reservation(request):
                     status=status.HTTP_409_CONFLICT,
                 )
 
-            reservation = serializer.save()
+            reservation = serializer.save(room=room)
+
+    except Room.DoesNotExist:
+        return Response(
+            {"error": "Room is not available."},
+            status=status.HTTP_409_CONFLICT,
+        )
 
     except IntegrityError:
         return Response(
