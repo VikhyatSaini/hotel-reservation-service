@@ -28,6 +28,7 @@ jobs:
           --health-retries 5
 
     env:
+      DJANGO_SECRET_KEY: "ci-only-test-key-not-for-production"
       POSTGRES_DB: hotel_db
       POSTGRES_USER: hotel_app
       POSTGRES_PASSWORD: ci-password
