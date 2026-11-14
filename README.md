@@ -143,6 +143,42 @@ DJANGO_SECRET_KEY=replace-with-a-long-random-secret
 
 Never commit `.env` or real credentials. The repository includes `.env.example` as a configuration template.
 
+### Local HTTPS certificate
+
+The local Nginx deployment uses a self-signed TLS certificate for `localhost`.
+
+Generate the certificate directory:
+
+```powershell
+New-Item -ItemType Directory -Force -Path .\nginx\certs
+```
+
+Generate a local certificate and private key using OpenSSL in a temporary Alpine container:
+
+```powershell
+docker run --rm `
+  -v "${PWD}/nginx/certs:/certs" `
+  alpine:latest sh -c "apk add --no-cache openssl && openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /certs/localhost.key -out /certs/localhost.crt -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost,IP:127.0.0.1'"
+```
+
+The certificate and private key are mounted read-only into Nginx. The `nginx/certs/` directory is excluded from Git.
+
+Start the services:
+
+```powershell
+docker compose up -d
+```
+
+Test HTTPS locally:
+
+```powershell
+curl.exe -k -i https://localhost/health/ready/
+```
+
+The `-k` option is needed because the certificate is self-signed and is not issued by a publicly trusted certificate authority.
+
+HTTP requests are redirected to HTTPS. This local certificate is for demonstration and development only, not public production use.
+
 ## 7. Run the Application
 
 The Compose configuration uses a versioned image published to GHCR.

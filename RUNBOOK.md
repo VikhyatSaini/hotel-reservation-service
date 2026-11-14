@@ -256,3 +256,32 @@ The earlier rollback experiment used an image that did not expose the current he
 - Test restores in a separate database first.
 - Confirm image and database-schema compatibility before rolling back.
 - Verify readiness after every recovery or deployment operation.
+
+## 10. HTTPS and Nginx
+
+Nginx terminates HTTPS on port 443 and redirects HTTP requests from port 80 to HTTPS.
+
+Check Nginx configuration syntax:
+
+```powershell
+docker compose exec nginx nginx -t
+```
+
+Check the HTTPS readiness endpoint:
+
+```powershell
+curl.exe -k -i https://localhost/health/ready/
+```
+
+Check HTTP redirection:
+
+```powershell
+curl.exe -i http://localhost/health/ready/
+```
+
+Expected results:
+
+- HTTPS returns HTTP 200 when the application and database are ready.
+- HTTP returns HTTP 301 with a `Location` header pointing to HTTPS.
+
+The local deployment uses a self-signed certificate. Do not use this certificate for public production traffic.
