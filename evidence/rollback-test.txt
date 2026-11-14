@@ -1,0 +1,14 @@
+Rollback verification
+Date: 15 November 2026
+
+Previous image: ghcr.io/vikhyatsaini/hotel-reservation-service:sha-cdbd098
+Rollback image: ghcr.io/vikhyatsaini/hotel-reservation-service:sha-d140964
+Rollback digest: sha256:9d25b9c0f61c9dcec6bce04775fbf059375802392e0c1692da8b650718a0b400
+
+Container status: healthy
+HTTPS readiness: HTTP 200
+HTTPS liveness: HTTP 200
+Room availability: HTTP 200
+Database: connected
+
+Result: Rollback to the earlier image succeeded.

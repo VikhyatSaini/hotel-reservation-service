@@ -25,7 +25,7 @@ services:
       start_period: 10s
 
   web:
-    image: ghcr.io/vikhyatsaini/hotel-reservation-service:sha-cdbd098
+    image: ghcr.io/vikhyatsaini/hotel-reservation-service:sha-6921858
     container_name: hotel-reservation-api
     restart: unless-stopped
 

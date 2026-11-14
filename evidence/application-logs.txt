@@ -1,0 +1,2 @@
+﻿hotel-reservation-api  | {"timestamp": "2026-11-14 23:37:07,348", "level": "INFO", "logger": "reservations.views", "message": "Reservation created successfully", "event": "reservation_created", "room_id": 1, "reservation_reference": "c268f838-c672-483a-b892-66311f83b06f"}
+hotel-reservation-api  | {"timestamp": "2026-11-14 23:38:58,878", "level": "WARNING", "logger": "reservations.views", "message": "Reservation rejected: room unavailable", "event": "reservation_conflict", "room_id": 1}

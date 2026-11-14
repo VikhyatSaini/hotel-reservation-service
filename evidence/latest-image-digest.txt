@@ -1,0 +1,1 @@
+["ghcr.io/vikhyatsaini/hotel-reservation-service@sha256:fa60df994fea79026d7cd1f382e9e190b5e670bc3dae03a8eb75c828806d9b1e"]

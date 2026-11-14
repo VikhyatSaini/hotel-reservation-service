@@ -1,0 +1,18 @@
+Image: ghcr.io/vikhyatsaini/hotel-reservation-service:sha-6921858
+Scan date: 2026-11-14
+Scanner: Trivy
+Severity filter: HIGH, CRITICAL
+
+HIGH findings: 47
+CRITICAL findings: 0
+Findings with a listed fixed version: 0
+Findings without a listed fix: 47
+
+All reported findings are in Debian 13.7 OS packages.
+No Python runtime package vulnerabilities were reported
+at the selected severity levels.
+
+Remediation decision:
+No targeted package upgrade was applied because the scan
+listed no fixed versions. Re-scan when upstream fixes become
+available.
