@@ -14,6 +14,7 @@ The application uses PostgreSQL constraints and transaction-level room locking t
 
 ### Application request flow
 
+```mermaid
 flowchart TD
     Client["Client / API Consumer"]
 
@@ -40,7 +41,8 @@ flowchart TD
     end
 
     Registry -. "Published versioned image" .-> Django
-    
+```
+
 ### CI/CD flow
 
 ```text
