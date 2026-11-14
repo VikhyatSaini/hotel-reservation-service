@@ -25,7 +25,7 @@ services:
       start_period: 10s
 
   web:
-    image: ghcr.io/vikhyatsaini/hotel-reservation-service:sha-4ec0590
+    image: hotel-reservation-api:security-test
     container_name: hotel-reservation-api
     restart: unless-stopped
 
@@ -36,7 +36,7 @@ services:
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
-      
+
     healthcheck:
       test:
         - CMD

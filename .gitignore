@@ -26,3 +26,5 @@ staticfiles/
 
 # Logs
 *.log
+
+backups/
