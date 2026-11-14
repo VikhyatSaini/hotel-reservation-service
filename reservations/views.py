@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from reservations.models import Reservation
 from reservations.serializers import ReservationCreateSerializer
 from rooms.models import Room
+import logging
 
+logger = logging.getLogger(__name__)
 
 @api_view(["POST"])
 def create_reservation(request):
@@ -33,6 +35,13 @@ def create_reservation(request):
             )
 
             if overlapping_reservations.exists():
+                logger.warning(
+                    "Reservation rejected: room unavailable",
+                    extra={
+                        "event": "reservation_conflict",
+                        "room_id": room.id,
+                    },
+                )
                 return Response(
                     {"error": "Room is not available for these dates."},
                     status=status.HTTP_409_CONFLICT,
@@ -51,7 +60,15 @@ def create_reservation(request):
             {"error": "Room is not available for these dates."},
             status=status.HTTP_409_CONFLICT,
         )
-
+    
+    logger.info(
+        "Reservation created successfully",
+        extra={
+            "event": "reservation_created",
+            "room_id": reservation.room_id,
+            "reservation_reference": str(reservation.reference),
+        },
+    )
     return Response(
         {
             "reference": str(reservation.reference),
