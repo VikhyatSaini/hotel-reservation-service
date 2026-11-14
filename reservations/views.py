@@ -1,3 +1,5 @@
+import logging
+
 from django.db import IntegrityError, transaction
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -6,9 +8,9 @@ from rest_framework.response import Response
 from reservations.models import Reservation
 from reservations.serializers import ReservationCreateSerializer
 from rooms.models import Room
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 @api_view(["POST"])
 def create_reservation(request):
@@ -60,7 +62,7 @@ def create_reservation(request):
             {"error": "Room is not available for these dates."},
             status=status.HTTP_409_CONFLICT,
         )
-    
+
     logger.info(
         "Reservation created successfully",
         extra={

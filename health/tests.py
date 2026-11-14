@@ -31,7 +31,9 @@ def test_readiness_returns_200_when_database_is_available():
 def test_readiness_returns_503_when_database_fails():
     client = Client()
 
-    with patch("health.views.connection.cursor", side_effect=Exception("Database unavailable")):
+    with patch(
+        "health.views.connection.cursor", side_effect=Exception("Database unavailable")
+    ):
         response = client.get("/health/ready/")
 
     assert response.status_code == 503
