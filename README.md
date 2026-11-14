@@ -14,19 +14,33 @@ The application uses PostgreSQL constraints and transaction-level room locking t
 
 ### Application request flow
 
-```text
-Client
-  |
-  v
-Nginx (port 80)
-  |
-  v
-Gunicorn / Django REST Framework (port 8000)
-  |
-  v
-PostgreSQL (port 5432, internal Compose network)
-```
+flowchart TD
+    Client["Client / API Consumer"]
 
+    subgraph Deployment["Docker Compose Deployment"]
+        Nginx["Nginx Reverse Proxy :80"]
+        Django["Gunicorn + Django REST API :8000"]
+        DB[("PostgreSQL 17")]
+
+        Nginx --> Django
+        Django --> DB
+    end
+
+    Client --> Nginx
+
+    subgraph CICD["CI/CD Pipeline"]
+        Developer["Developer Push"]
+        Actions["GitHub Actions"]
+        Checks["Ruff + Django Checks + pytest"]
+        Registry["GitHub Container Registry"]
+
+        Developer --> Actions
+        Actions --> Checks
+        Checks --> Registry
+    end
+
+    Registry -. "Published versioned image" .-> Django
+    
 ### CI/CD flow
 
 ```text
