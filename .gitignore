@@ -18,13 +18,20 @@ venv/
 db.sqlite3
 staticfiles/
 
-# Pytest
-.pytest_cache/
-
 # IDE
 .vscode/
 
 # Logs
 *.log
 
+# Local database backups
 backups/
+
+# Local Docker image exports and inspection
+hotel-image.tar
+layer-inspect/
+docker-compose.rollback-backup.yml
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
