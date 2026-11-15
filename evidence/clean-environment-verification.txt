@@ -1,0 +1,27 @@
+CLEAN ENVIRONMENT DEPLOYMENT VERIFICATION
+Date: 2026-11-15
+
+Image:
+ghcr.io/vikhyatsaini/hotel-reservation-service:sha-6921858
+
+Deployment:
+- Separate Docker Compose project: hotel-clean-test
+- Fresh PostgreSQL database: clean_hotel_db
+- Fresh persistent volume: hotel-clean-test_clean_test_data
+- Nginx test port: 18080
+
+Results:
+- PostgreSQL container healthy
+- Django application container healthy
+- Nginx container running
+- GET /health/ready/ returned HTTP 200
+- All Django migrations applied successfully
+- seed_data created five rooms
+- Availability API returned HTTP 200 and rooms 101 and 102
+- Reservation POST returned HTTP 201
+- Reservation status: CONFIRMED
+
+Conclusion:
+The pinned GHCR image successfully started against a fresh
+PostgreSQL database, applied migrations, loaded seed data,
+and served API requests through Nginx.
